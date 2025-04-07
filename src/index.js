@@ -1,3 +1,7 @@
+import roseImg from "../images/rose.png";
+import avatarOneImg from "../images/avatar1.png";
+import avatarTwoImg from "../images/avatar2.png";
+
 //Do not change //////////////////////////////////
 const reviews = [
   {
@@ -23,3 +27,20 @@ const reviews = [
 /////////////////////////////////////////////////////////////////////
 
 //Your Code Below Here////
+function App() {
+  const renderReview = reviews.forEach((review) => {
+    <div className="review_container">
+      <img src={review.image} />
+      <div>
+        <p>Username: {review.username}</p>
+        <p>Star Rating:{review.star} </p>
+        <p>Review: {review.review}</p>
+      </div>
+      ;
+    </div>;
+  });
+  console.log(renderReview());
+  return <>{renderReview()}</>;
+}
+
+export default App;
