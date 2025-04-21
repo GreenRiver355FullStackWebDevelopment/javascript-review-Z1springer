@@ -1,6 +1,4 @@
-import roseImg from "../images/rose.png";
-import avatarOneImg from "../images/avatar1.png";
-import avatarTwoImg from "../images/avatar2.png";
+import { calculateStarAverage } from "./logic.js";
 
 //Do not change //////////////////////////////////
 const reviews = [
@@ -27,20 +25,51 @@ const reviews = [
 /////////////////////////////////////////////////////////////////////
 
 //Your Code Below Here////
-function App() {
-  const renderReview = reviews.forEach((review) => {
-    <div className="review_container">
-      <img src={review.image} />
-      <div>
-        <p>Username: {review.username}</p>
-        <p>Star Rating:{review.star} </p>
-        <p>Review: {review.review}</p>
-      </div>
-      ;
-    </div>;
-  });
-  console.log(renderReview());
-  return <>{renderReview()}</>;
-}
+/*
+ Debugged with AI,
+ -  Used event.target.reason.value because name="reason" in HTML
+ - Replaced renderReview(reviews) with renderReviews(reviews)
+ - Passed the correct arguments in renderReviews
+*/
+const form = document.querySelector("form");
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  console.log("Form Submitted");
+  const image = event.target.image.value;
+  const username = event.target.username.value;
+  const starRating = event.target.reason.value;
+  const review = event.target.review.value;
 
-export default App;
+  renderReview(image, username, starRating, review);
+});
+
+// const starRatings = reviews.map((review) => review.star);
+// console.log(calculateStarAverage(starRatings));
+const avgStarRating = document.querySelector(".starRating");
+avgStarRating.innerHTML = `
+    ${calculateStarAverage(reviews)}
+`;
+
+const renderReview = (image, username, starRating, review) => {
+  const container = document.querySelector(".reviews");
+  const div = document.createElement("div");
+  div.innerHTML = `
+    <div class="review_container">
+    <img src=${image} />
+    <div>
+      <p>Username: ${username}</p>
+      <p>Star Rating: ${starRating} </p>
+      <p>Review: ${review}</p>
+    </div>
+  </div>
+  `;
+  container.append(div);
+};
+
+const renderReviews = (reviews) => {
+  reviews.forEach((review) => {
+    renderReview(review.image, review.username, review.star, review.review);
+  });
+};
+
+renderReviews(reviews);
